@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>DDoS ATTACK за 1000 рублей</title>
+  <style>
+    body {
+      background: black;
+      color: lime;
+      font-family: monospace;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    input, button {
+      background: black;
+      border: 1px solid lime;
+      color: lime;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    #log {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid lime;
+      margin: 20px auto;
+      width: 80%;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .packet {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: lime;
+      border-radius: 50%;
+      animation: fly 1.5s linear forwards;
+    }
+
+    @keyframes fly {
+      from {
+        top: 100%;
+        left: 50%;
+      }
+      to {
+        top: 10%;
+        left: calc(50% + (Math.random() * 200 - 100)px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>DDoS ATTACK </h1>
+  <input type="text" id="ip" placeholder="Введите IP-адрес">
+  <button onclick="startAttack()">Атаковать</button>
+
+  <div id="log"></div>
+  <h2>Отправлено пакетов: <span id="counter">0</span></h2>
+
+  <script>
+    let counter = 0;
+    let interval;
+
+    function startAttack() {
+      const ip = document.getElementById('ip').value;
+      if (!ip) return alert("Введите IP!");
+
+      document.getElementById('log').innerHTML = '';
+      counter = 0;
+      document.getElementById('counter').textContent = counter;
+
+      clearInterval(interval);
+      interval = setInterval(() => {
+        counter++;
+        document.getElementById('counter').textContent = counter;
+        const log = document.getElementById('log');
+        const packetText = `➤ Отправлен пакет на ${ip}`;
+        const line = document.createElement('div');
+        line.textContent = packetText;
+        log.appendChild(line);
+        log.scrollTop = log.scrollHeight;
+
+        const dot = document.createElement('div');
+        dot.className = 'packet';
+        dot.style.left = `${50 + Math.random() * 30 - 15}%`;
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 1500);
+      }, 100);
+    }
+  </script>
+
+</body>
+</html>
